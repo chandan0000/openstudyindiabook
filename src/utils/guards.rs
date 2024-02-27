@@ -21,7 +21,6 @@ pub async fn guard(
         .ok_or(APIError {
             message: "No Auth token found".to_owned(),
             status_code: StatusCode::BAD_REQUEST,
-            error_code: Some(40),
         })?
         .token()
         .to_owned();
@@ -30,7 +29,6 @@ pub async fn guard(
         .map_err(|_| APIError {
             message: "Unauthorized".to_owned(),
             status_code: StatusCode::UNAUTHORIZED,
-            error_code: Some(41),
         })?
         .claims;
 
@@ -45,12 +43,10 @@ pub async fn guard(
         .map_err(|err| APIError {
             message: err.to_string(),
             status_code: StatusCode::INTERNAL_SERVER_ERROR,
-            error_code: Some(50),
         })?
         .ok_or(APIError {
             message: "Unauthorized".to_owned(),
             status_code: StatusCode::UNAUTHORIZED,
-            error_code: Some(41),
         })?;
 
     req.extensions_mut().insert(identity);

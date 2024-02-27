@@ -13,3 +13,4 @@ async fn main() {
 }
 
 // cargo watch -q -c -w src/ -x run
+// sea-orm-cli generate entity  -o entity/src                                                

@@ -25,7 +25,8 @@ impl MigrationTrait for Migration {
                         ForeignKey::create()
                             .name("owner_id")
                             .from(Posts::Table, Posts::OwnerId)
-                            .to(User::Table, User::Id),
+                            .to(User::Table, User::Id).on_delete(ForeignKeyAction::Cascade)
+                            ,
                     )
                     .col(ColumnDef::new(Posts::Title).string().not_null())
                     .col(ColumnDef::new(Posts::Text).string().not_null())
