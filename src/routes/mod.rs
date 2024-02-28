@@ -7,14 +7,16 @@ use users::{create_user, login_user, logout_user};
 use axum::{
     extract::FromRef,
     middleware,
-    routing::{get, post, put},
+    routing::{get, post, },
     Router,
+
 };
 use sea_orm::DatabaseConnection;
 
 use crate::utils::guards::guard;
 
 #[derive(Clone, FromRef)]
+
 pub struct AppState {
     pub database: DatabaseConnection,
 }

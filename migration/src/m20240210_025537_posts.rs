@@ -48,7 +48,7 @@ impl MigrationTrait for Migration {
 #[derive(DeriveIden)]
 enum Posts {
     Table,
-    UserId,
+
     Id,
     Title,
     Text,

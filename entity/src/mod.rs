@@ -2,5 +2,7 @@
 
 pub mod prelude;
 
+pub mod books;
+pub mod category_book;
 pub mod posts;
 pub mod user;

@@ -20,10 +20,12 @@ impl MigrationTrait for Migration {
                             .primary_key(),
                     )
                     .col(ColumnDef::new(Books::Title).string().not_null())
-                    .col(ColumnDef::new(Books::Text).string().not_null())
+                    .col(ColumnDef::new(Books::Summery).string().not_null())
+                    .col(ColumnDef::new(Books::PdfUrl).string().not_null())
+                    .col(ColumnDef::new(Books::CategoryId).integer().not_null())
                     .foreign_key(
                         ForeignKey::create()
-                            .name("categorybook_id")
+                            .name("category_id")
                             .from(Books::Table, Books::CategoryId)
                             .to(CategoryBook::Table, CategoryBook::Id)
                             .on_delete(ForeignKeyAction::Cascade),
@@ -57,7 +59,8 @@ enum Books {
     Table,
     Id,
     Title,
-    Text,
+    Summery,
+    PdfUrl,
     CategoryId,
     CreatedAt,
     UpdatedAt,
