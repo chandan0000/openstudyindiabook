@@ -2,6 +2,7 @@ mod routes;
 mod utils;
 use std::time::Duration;
 
+use migration::MigratorTrait;
 use routes::create_routes;
 use sea_orm::{ConnectOptions, Database, DatabaseConnection};
 
@@ -17,8 +18,10 @@ pub async fn run() {
         .max_lifetime(Duration::from_secs(8))
         .sqlx_logging(true);
         // .sqlx_logging_level(log::LevelFilter::Info);
+        
 
     let db: DatabaseConnection = Database::connect(opt).await.unwrap();
+    migration::Migrator::up(&db, None).await;
 
     let app = create_routes(db);
 

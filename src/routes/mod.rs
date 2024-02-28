@@ -5,7 +5,10 @@ use hello_server::hello_server;
 use users::{create_user, login_user, logout_user};
 
 use axum::{
-    extract::FromRef, middleware, routing::{get, post, put}, Router
+    extract::FromRef,
+    middleware,
+    routing::{get, post, put},
+    Router,
 };
 use sea_orm::DatabaseConnection;
 
@@ -21,7 +24,8 @@ pub fn create_routes(database: DatabaseConnection) -> Router {
     Router::new()
         .route("/logout", post(logout_user))
         .route_layer(middleware::from_fn_with_state(app_state.clone(), guard))
-        // 
-        .route("/", get(hello_server)).route("/users", post(create_user))
+        //
+        .route("/", get(hello_server))
+        .route("/users/signup", post(create_user)).route("/users/login", post(login_user))
         .with_state(app_state)
 }

@@ -15,7 +15,7 @@ pub struct Cliams {
 
 pub fn encode_jwt(user_id: i32) -> Result<String, APIError> {
     let now = Utc::now();
-    let expire = Duration::hours(24);
+    let expire = Duration::days(4);
 
     let claim = Cliams {
         iat: now.timestamp() as usize,
@@ -29,7 +29,10 @@ pub fn encode_jwt(user_id: i32) -> Result<String, APIError> {
         &claim,
         &EncodingKey::from_secret(secret.as_ref()),
     )
-    .map_err(|_error| APIError{message:_error.to_string() , status_code: StatusCode::INTERNAL_SERVER_ERROR});
+    .map_err(|_error| APIError {
+        message: _error.to_string(),
+        status_code: StatusCode::INTERNAL_SERVER_ERROR,
+    });
 }
 
 pub fn decode_jwt(jwt: String) -> Result<TokenData<Cliams>, APIError> {
@@ -39,6 +42,9 @@ pub fn decode_jwt(jwt: String) -> Result<TokenData<Cliams>, APIError> {
         &DecodingKey::from_secret(secret.as_ref()),
         &Validation::default(),
     )
-    .map_err(|_error|APIError{message:_error.to_string() , status_code:StatusCode::INTERNAL_SERVER_ERROR});
+    .map_err(|_error| APIError {
+        message: _error.to_string(),
+        status_code: StatusCode::INTERNAL_SERVER_ERROR,
+    });
     return res;
 }

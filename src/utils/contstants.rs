@@ -16,5 +16,5 @@ fn set_database() -> String{
 
 fn set_token() -> String{
     dotenv().ok();
-    env::var("TOKEN").unwrap()
+    env::var("JWT_SECRET").unwrap()
 }
