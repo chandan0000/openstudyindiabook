@@ -31,11 +31,22 @@ pub async fn create_category(
     }
     .save(&database)
     .await
-    .map_err(|err| {
-        eprintln!("{:?}", err);
-        APIError {
-            message: err.to_string(),
-            status_code: StatusCode::INTERNAL_SERVER_ERROR,
+    .map_err(|error| {
+        let error_message = error.to_string();
+
+        if error_message
+            .contains("duplicate key value violates unique constraint \"category_book_title_key\"")
+        {
+            APIError::new(
+                "Category with title name already exists",
+                StatusCode::BAD_REQUEST,
+            )
+        } else {
+            eprintln!("Error creating user: {:?}", error_message);
+            APIError::new(
+                "Something went wrong, please try again",
+                StatusCode::INTERNAL_SERVER_ERROR,
+            )
         }
     })?;
     let created_at_utc = category.created_at.unwrap().with_timezone(&Utc);
