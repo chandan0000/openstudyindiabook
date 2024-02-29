@@ -3,6 +3,7 @@ use sea_orm_migration::prelude::*;
 #[derive(DeriveMigrationName)]
 pub struct Migration;
 
+
 #[async_trait::async_trait]
 impl MigrationTrait for Migration {
     async fn up(&self, manager: &SchemaManager) -> Result<(), DbErr> {
@@ -18,7 +19,7 @@ impl MigrationTrait for Migration {
                             .auto_increment()
                             .primary_key(),
                     )
-                    .col(ColumnDef::new(CategoryBook::Title).string().not_null())
+                    .col(ColumnDef::new(CategoryBook::Title).string().unique_key().not_null())
                     .col(
                         ColumnDef::new(CategoryBook::CreatedAt)
                             .timestamp_with_time_zone()
@@ -48,6 +49,7 @@ pub enum CategoryBook {
     Table,
     Id,
     Title,
+
     CreatedAt,
     UpdatedAt,
 }

@@ -20,7 +20,7 @@ pub async fn guard(
         .typed_get::<Authorization<Bearer>>()
         .ok_or(APIError {
             message: "No Auth token found".to_owned(),
-            status_code: StatusCode::BAD_REQUEST,
+            status_code: StatusCode::UNAUTHORIZED,
         })?
         .token()
         .to_owned();

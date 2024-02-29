@@ -1,6 +1,6 @@
 use crate::utils::{api_error::APIError, jwt::{decode_jwt, encode_jwt}};
 
-use axum::{extract::State, http::StatusCode, Error, Json};
+use axum::{extract::{Query, State}, http::StatusCode, Error, Json};
 use bcrypt;
 use entity::{user, user::Entity as User};
 use sea_orm::{
@@ -35,7 +35,7 @@ pub async fn create_user(
     }
 
     // Check if user with the same email already exists
-    if let Some(existing_user) = User::find()
+    if let Some(_existing_user) = User::find()
         .filter(user::Column::Email.eq(&user_request.email))
         .one(&database)
         .await
