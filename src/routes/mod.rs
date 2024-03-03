@@ -10,7 +10,6 @@ use axum::{
     extract::FromRef,
     middleware,
     routing::{get, post},
-    routing::{on, MethodFilter},
     Router,
 };
 use books::book_created;
@@ -36,7 +35,8 @@ pub fn create_routes(database: DatabaseConnection) -> Router {
             "/books",
             post(book_created), // on(MethodFilter::POST, book_created)
         )
-        .route("/users/signup", post(create_user))
+        // .merge(Router::new().route("/kk", get(|| async {})))
+        .route("/users/signup", post(create_user), )
         .route("/users/login", post(login_user))
         .with_state(app_state)
 }

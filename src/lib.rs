@@ -1,7 +1,8 @@
 mod routes;
 mod utils;
-use std::time::Duration;
+use std::{env, time::Duration};
 
+use dotenvy::dotenv_iter;
 use migration::{Migrator, MigratorTrait};
 use routes::create_routes;
 use sea_orm::{ConnectOptions, Database, DatabaseConnection};
@@ -23,10 +24,13 @@ pub async fn run() {
     // Initialize database connection
 
     // Run all pending migrations
-    Migrator::up(&db, None).await.unwrap();
+    // Migrator::up(&db, None).await.unwrap();
+
+
 
     let app = create_routes(db);
 
-    let listener = tokio::net::TcpListener::bind("0.0.0.0:3000").await.unwrap();
+    let listener = tokio::net::TcpListener::bind(env::var("localhost").unwrap()).await.unwrap();
     axum::serve(listener, app).await.unwrap();
 }
+

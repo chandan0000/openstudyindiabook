@@ -1,10 +1,10 @@
-use crate::utils::{api_error::APIError, jwt::{decode_jwt, encode_jwt}};
+use crate::utils::{api_error::APIError, jwt::{encode_jwt}};
 
-use axum::{extract::{Query, State}, http::StatusCode, Error, Json};
+use axum::{extract::{State}, http::StatusCode, Json};
 use bcrypt;
 use entity::{user, user::Entity as User};
 use sea_orm::{
-    ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, IntoActiveModel, QueryFilter,
+    ActiveModelTrait, ColumnTrait, DatabaseConnection, EntityTrait, QueryFilter,
     Set,
 };
 use serde::{Deserialize, Serialize};
@@ -128,7 +128,7 @@ pub async fn login_user(
     Ok(Json(LoginResponse { token }))
 }
 
-pub async fn logout_user(State(database): State<DatabaseConnection>) {}
+pub async fn logout_user(State(_database): State<DatabaseConnection>) {}
 
 fn hash_password(password: String) -> Result<String, APIError> {
     bcrypt::hash(password, 14).map_err(|_error| APIError {

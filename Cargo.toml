@@ -18,7 +18,6 @@ tower-http = { version = "0.5.1", features = ["cors", "fs"] }
 serde = { version = "1.0.147", features = ["derive"] }
 sea-orm = { version = "0.12.14", features = ["sqlx-postgres", "runtime-tokio-rustls"] }
 dotenvy = "0.15.6"
-dotenvy_macro = "0.15.1"
 uuid = { version = "1.7.0", features = ["v4", "serde"] }
 chrono = { version = "0.4.33", features = ["serde"] }
 jsonwebtoken = "9.2.0"

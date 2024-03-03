@@ -2,8 +2,8 @@ use axum::{
     extract::{Multipart, State},
     http::StatusCode,
 };
-use chrono::{DateTime, Utc};
-use futures::{future::ok, io, StreamExt, TryStreamExt};
+use chrono::{Utc};
+use futures::{io, TryStreamExt};
 
 use sea_orm::DatabaseConnection;
 
@@ -11,7 +11,7 @@ use tokio::{fs::File, io::AsyncWriteExt};
 use tokio_util::io::StreamReader;
 
 pub async fn book_created(
-    State(databse): State<DatabaseConnection>,
+    State(_databse): State<DatabaseConnection>,
     mut multipart: Multipart,
 ) -> Result<(), StatusCode> {
     while let Some(field) = multipart.next_field().await.unwrap() {
@@ -52,7 +52,7 @@ pub async fn book_created(
 }
 pub async fn upload(mut multipart: Multipart) {
     while let Some(field) = multipart.next_field().await.unwrap() {
-        let filename = if let Some(filename) = field.file_name() {
+        let _filename = if let Some(filename) = field.file_name() {
             filename.to_string()
         } else {
             continue;
